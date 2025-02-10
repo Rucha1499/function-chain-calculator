@@ -32,6 +32,7 @@ const calculateResult = (equation: any, x: any) => {
   const processedEquation = equation.replace(/\^/g, "**");
 
   try {
+    // eslint-disable-next-line no-new-func
     return new Function("x", `return ${processedEquation}`)(x);
   } catch (error) {
     return NaN;
