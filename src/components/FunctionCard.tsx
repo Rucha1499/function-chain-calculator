@@ -1,75 +1,55 @@
 import { FC } from "react";
-import styled from "styled-components";
-import indicator from "../assets/indicator.svg";
-import ellipse from "../assets/ellipse.svg";
+import indicator from "../assets/images/indicator.svg";
+import ellipse from "../assets/images/ellipse.svg";
+import EquationInput from "./EquationInput";
+import FunctionsDropdown from "./FunctionsDropdown";
+import { TFunctionCardProps } from "../types/functionCard";
+import { Wrapper } from "../styles/FunctionCard";
+import ValueNode from "./ValueNode";
+import { DividerPosition } from "../types/valuenode";
 
-const Wrapper = styled.div`
-  .card {
-    padding: 16px;
-    width: 235px;
-    height: 250px;
-    border: 1px solid #dfdfdf;
-    border-radius: 15px;
-    background-color: #ffffff;
-    font-size: 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow: 0px 0px 6px 0px #0000000d;
-  }
-
-  .function-name {
-    color: #a5a5a5;
-    margin-left: 4px;
-    font-size: 14px;
-  }
-
-  .input-output {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #585757;
-    font-size: 10px;
-
-    div {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-  }
-`;
-
-const FunctionCard: FC<any> = ({
+const FunctionCard: FC<TFunctionCardProps> = ({
   name,
   id,
   equation,
   nextFunction,
   onFunctionChange,
+  onInputChange,
+  input,
+  output,
+  showInputNode = false,
+  showOutputNode = false,
 }) => {
   return (
     <Wrapper>
+      {showInputNode && (
+        <ValueNode
+          label="Initial value of x"
+          value={input}
+          nodecolor="#E29A2D"
+          dividerPosition={DividerPosition.AFTER_INPUT}
+          dividercolor="#FFEED5"
+          onChange={onInputChange}
+        />
+      )}
       <div className="card">
         <div>
           <img src={indicator} alt="indicator-icon" />
           <span className="function-name">Function: {name}</span>
         </div>
 
-        <div>
+        <div className="card-element">
           <p>Equation</p>
-          <input
-            type="text"
-            value={equation}
-            onChange={(e) => {
-              onFunctionChange(id, e.target.value);
-            }}
+          <EquationInput
+            id={id}
+            equation={equation}
+            onFunctionChange={onFunctionChange}
           />
         </div>
 
-        <div>
+        <div className="card-element">
           <p>Next Function</p>
-          <select disabled>
-            <option>{nextFunction ? `Function: ${nextFunction}` : "-"}</option>
-          </select>
+          <FunctionsDropdown selectedFunction={nextFunction} disabled={true} />
         </div>
 
         <div className="input-output">
@@ -84,6 +64,17 @@ const FunctionCard: FC<any> = ({
           </div>
         </div>
       </div>
+      {showOutputNode && (
+        <ValueNode
+          label="Final Output y"
+          value={output}
+          nodecolor="#4CAF79"
+          dividerPosition={DividerPosition.BEFORE_INPUT}
+          dividercolor="#C5F2DA"
+          readonly={true}
+          hasError={isNaN(output)}
+        />
+      )}
     </Wrapper>
   );
 };

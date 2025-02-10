@@ -1,9 +1,19 @@
-export const functionsConfig = [
+export type FunctionConfig = {
+  id: number;
+  name: string;
+  equation: string;
+  nextFunction: number | null;
+  hasInputNode?: boolean;
+  hasOutputNode?: boolean;
+};
+
+export const functionsConfig: FunctionConfig[] = [
   {
     id: 1,
     name: "1",
     equation: "x^2",
     nextFunction: 2,
+    hasInputNode: true,
   },
   {
     id: 2,
@@ -16,6 +26,7 @@ export const functionsConfig = [
     name: "3",
     equation: "x^2+20",
     nextFunction: null,
+    hasOutputNode: true,
   },
   {
     id: 4,
