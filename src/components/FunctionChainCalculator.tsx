@@ -5,39 +5,24 @@ import ValueNode from "./ValueNode";
 import FunctionCard from "./FunctionCard";
 import { functionsConfig } from "../constants/functions";
 import { FUNCTIONS_SEQUENCE } from "../constants/sequence";
+import { calculateResult } from "../utils/equation";
 
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
+  width: 95%;
 
   .function-cards {
-    width: 80%;
-    height: 90%;
+    width: 70%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    gap: 100px;
+    gap: 48px;
   }
 `;
-
-const validateEquation = (equation: any) => {
-  const validPattern = /^[x0-9+\-*/\s^()]+$/;
-  return validPattern.test(equation);
-};
-
-const calculateResult = (equation: any, x: any) => {
-  const processedEquation = equation.replace(/\^/g, "**");
-
-  try {
-    // eslint-disable-next-line no-new-func
-    return new Function("x", `return ${processedEquation}`)(x);
-  } catch (error) {
-    return NaN;
-  }
-};
 
 const FunctionChainCalculator: FC = () => {
   const [input, setInput] = useState<number>(2);
@@ -45,10 +30,7 @@ const FunctionChainCalculator: FC = () => {
 
   const [functions, setFunctions] = useState(functionsConfig);
 
-
-  const updateEquation = (id: string, newEquation: string) => {
-    if (!validateEquation(newEquation)) return;
-
+  const updateEquation = (id: number, newEquation: string) => {
     setFunctions(
       functions.map((f: any) =>
         f.id === id ? { ...f, equation: newEquation } : f
@@ -75,8 +57,6 @@ const FunctionChainCalculator: FC = () => {
         label="Initial value of x"
         value={input}
         nodecolor="#E29A2D"
-        textcolor="#000000"
-        labelcolor="#FFFFFF"
         dividerPosition={DividerPosition.AFTER_INPUT}
         dividercolor="#FFEED5"
         onChange={setInput}
@@ -97,11 +77,10 @@ const FunctionChainCalculator: FC = () => {
         label="Final Output y"
         value={output}
         nodecolor="#4CAF79"
-        textcolor="#000000"
-        labelcolor="#FFFFFF"
         dividerPosition={DividerPosition.BEFORE_INPUT}
         dividercolor="#C5F2DA"
         readonly={true}
+        hasError={isNaN(output)}
       />
     </Wrapper>
   );

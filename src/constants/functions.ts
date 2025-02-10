@@ -1,4 +1,11 @@
-export const functionsConfig = [
+type FunctionConfig = {
+  id: number;
+  name: string;
+  equation: string;
+  nextFunction: number | null;
+};
+
+export const functionsConfig: FunctionConfig[] = [
   {
     id: 1,
     name: "1",

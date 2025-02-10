@@ -2,6 +2,9 @@ import { FC } from "react";
 import styled from "styled-components";
 import indicator from "../assets/indicator.svg";
 import ellipse from "../assets/ellipse.svg";
+import EquationInput from "./EquationInput";
+import FunctionsDropdown from "./FunctionsDropdown";
+import { TFunctionCardProps } from "../types/functionCard";
 
 const Wrapper = styled.div`
   .card {
@@ -16,6 +19,12 @@ const Wrapper = styled.div`
     flex-direction: column;
     justify-content: space-between;
     box-shadow: 0px 0px 6px 0px #0000000d;
+  }
+
+  .card-element {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 
   .function-name {
@@ -39,7 +48,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const FunctionCard: FC<any> = ({
+const FunctionCard: FC<TFunctionCardProps> = ({
   name,
   id,
   equation,
@@ -54,22 +63,18 @@ const FunctionCard: FC<any> = ({
           <span className="function-name">Function: {name}</span>
         </div>
 
-        <div>
+        <div className="card-element">
           <p>Equation</p>
-          <input
-            type="text"
-            value={equation}
-            onChange={(e) => {
-              onFunctionChange(id, e.target.value);
-            }}
+          <EquationInput
+            id={id}
+            equation={equation}
+            onFunctionChange={onFunctionChange}
           />
         </div>
 
-        <div>
+        <div className="card-element">
           <p>Next Function</p>
-          <select disabled>
-            <option>{nextFunction ? `Function: ${nextFunction}` : "-"}</option>
-          </select>
+          <FunctionsDropdown selectedFunction={nextFunction} disabled={true} />
         </div>
 
         <div className="input-output">

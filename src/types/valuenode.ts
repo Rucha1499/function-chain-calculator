@@ -7,10 +7,11 @@ export type TValueNodeProps = {
   label: string;
   readonly?: boolean;
   nodecolor: string;
-  textcolor: string;
-  labelcolor: string;
+  textcolor?: string;
+  labelcolor?: string;
   dividerPosition: DividerPosition;
   dividercolor: string;
   value: string | number;
   onChange?: (e: any) => void;
+  hasError?:boolean;
 };
