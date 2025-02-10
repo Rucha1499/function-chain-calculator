@@ -1,5 +1,5 @@
 import { FC } from "react";
-import background from "../src/assets/background.svg";
+import background from "../src/assets/images/background.svg";
 import styled from "styled-components";
 import FunctionChainCalculator from "./components/FunctionChainCalculator";
 

@@ -1,4 +1,4 @@
-type FunctionConfig = {
+export type FunctionConfig = {
   id: number;
   name: string;
   equation: string;

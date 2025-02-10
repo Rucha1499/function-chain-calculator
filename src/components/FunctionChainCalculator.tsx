@@ -1,54 +1,33 @@
-import { FC, useEffect, useState } from "react";
-import styled from "styled-components";
+import { FC, useCallback, useMemo, useState } from "react";
 import { DividerPosition } from "../types/valuenode";
 import ValueNode from "./ValueNode";
 import FunctionCard from "./FunctionCard";
-import { functionsConfig } from "../constants/functions";
+import { FunctionConfig, functionsConfig } from "../constants/functions";
 import { FUNCTIONS_SEQUENCE } from "../constants/sequence";
 import { calculateResult } from "../utils/equation";
-
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 95%;
-
-  .function-cards {
-    width: 70%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 48px;
-  }
-`;
+import { Wrapper } from "../styles/FunctionChainCalculator";
 
 const FunctionChainCalculator: FC = () => {
   const [input, setInput] = useState<number>(2);
-  const [output, setOutput] = useState<number>(0);
+  const [functions, setFunctions] = useState<FunctionConfig[]>(functionsConfig);
 
-  const [functions, setFunctions] = useState(functionsConfig);
-
-  const updateEquation = (id: number, newEquation: string) => {
-    setFunctions(
-      functions.map((f: any) =>
+  const updateEquation = useCallback((id: number, newEquation: string) => {
+    setFunctions((prevFunctions) =>
+      prevFunctions.map((f) =>
         f.id === id ? { ...f, equation: newEquation } : f
       )
     );
-  };
+  }, []);
 
-  useEffect(() => {
+  const output = useMemo(() => {
     let currentValue = input;
-
     FUNCTIONS_SEQUENCE.forEach((functionId) => {
       const func = functions.find((f) => f.id === functionId);
       if (func) {
         currentValue = calculateResult(func.equation, currentValue);
       }
     });
-
-    setOutput(currentValue);
+    return currentValue;
   }, [functions, input]);
 
   return (
