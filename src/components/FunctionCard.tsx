@@ -5,6 +5,8 @@ import EquationInput from "./EquationInput";
 import FunctionsDropdown from "./FunctionsDropdown";
 import { TFunctionCardProps } from "../types/functionCard";
 import { Wrapper } from "../styles/FunctionCard";
+import ValueNode from "./ValueNode";
+import { DividerPosition } from "../types/valuenode";
 
 const FunctionCard: FC<TFunctionCardProps> = ({
   name,
@@ -12,9 +14,24 @@ const FunctionCard: FC<TFunctionCardProps> = ({
   equation,
   nextFunction,
   onFunctionChange,
+  onInputChange,
+  input,
+  output,
+  showInputNode = false,
+  showOutputNode = false,
 }) => {
   return (
     <Wrapper>
+      {showInputNode && (
+        <ValueNode
+          label="Initial value of x"
+          value={input}
+          nodecolor="#E29A2D"
+          dividerPosition={DividerPosition.AFTER_INPUT}
+          dividercolor="#FFEED5"
+          onChange={onInputChange}
+        />
+      )}
       <div className="card">
         <div>
           <img src={indicator} alt="indicator-icon" />
@@ -47,6 +64,17 @@ const FunctionCard: FC<TFunctionCardProps> = ({
           </div>
         </div>
       </div>
+      {showOutputNode && (
+        <ValueNode
+          label="Final Output y"
+          value={output}
+          nodecolor="#4CAF79"
+          dividerPosition={DividerPosition.BEFORE_INPUT}
+          dividercolor="#C5F2DA"
+          readonly={true}
+          hasError={isNaN(output)}
+        />
+      )}
     </Wrapper>
   );
 };

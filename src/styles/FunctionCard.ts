@@ -1,6 +1,9 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
   .card {
     padding: 16px;
     width: 235px;

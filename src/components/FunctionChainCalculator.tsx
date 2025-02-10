@@ -1,6 +1,4 @@
 import { FC, useCallback, useMemo, useState } from "react";
-import { DividerPosition } from "../types/valuenode";
-import ValueNode from "./ValueNode";
 import FunctionCard from "./FunctionCard";
 import { FunctionConfig, functionsConfig } from "../constants/functions";
 import { FUNCTIONS_SEQUENCE } from "../constants/sequence";
@@ -32,35 +30,21 @@ const FunctionChainCalculator: FC = () => {
 
   return (
     <Wrapper>
-      <ValueNode
-        label="Initial value of x"
-        value={input}
-        nodecolor="#E29A2D"
-        dividerPosition={DividerPosition.AFTER_INPUT}
-        dividercolor="#FFEED5"
-        onChange={setInput}
-      />
-      <div className="function-cards">
-        {functions.map((fn) => (
-          <FunctionCard
-            key={fn.id}
-            name={fn.name}
-            id={fn.id}
-            equation={fn.equation}
-            nextFunction={fn.nextFunction}
-            onFunctionChange={updateEquation}
-          />
-        ))}
-      </div>
-      <ValueNode
-        label="Final Output y"
-        value={output}
-        nodecolor="#4CAF79"
-        dividerPosition={DividerPosition.BEFORE_INPUT}
-        dividercolor="#C5F2DA"
-        readonly={true}
-        hasError={isNaN(output)}
-      />
+      {functions.map((fn) => (
+        <FunctionCard
+          key={fn.id}
+          name={fn.name}
+          id={fn.id}
+          equation={fn.equation}
+          nextFunction={fn.nextFunction}
+          onFunctionChange={updateEquation}
+          onInputChange={setInput}
+          output={output}
+          input={input}
+          showInputNode={fn?.hasInputNode}
+          showOutputNode={fn?.hasOutputNode}
+        />
+      ))}
     </Wrapper>
   );
 };

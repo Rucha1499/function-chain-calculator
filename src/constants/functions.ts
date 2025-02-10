@@ -3,6 +3,8 @@ export type FunctionConfig = {
   name: string;
   equation: string;
   nextFunction: number | null;
+  hasInputNode?: boolean;
+  hasOutputNode?: boolean;
 };
 
 export const functionsConfig: FunctionConfig[] = [
@@ -11,6 +13,7 @@ export const functionsConfig: FunctionConfig[] = [
     name: "1",
     equation: "x^2",
     nextFunction: 2,
+    hasInputNode: true,
   },
   {
     id: 2,
@@ -23,6 +26,7 @@ export const functionsConfig: FunctionConfig[] = [
     name: "3",
     equation: "x^2+20",
     nextFunction: null,
+    hasOutputNode: true,
   },
   {
     id: 4,
